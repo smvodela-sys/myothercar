@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>My Other Car — Your dream car. Your face. Your ride.</title>
+<meta name="description" content="An AI photo app that puts you behind the wheel of your dream car. Bring your own Google Gemini key. No servers, no account, no tracking. $4.99/month with a 3-day free trial." />
+<meta property="og:title" content="My Other Car" />
+<meta property="og:description" content="Your face. Your dream car. One tap." />
+<meta property="og:image" content="images/image9.png" />
+<link rel="icon" type="image/png" href="favicon.png" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<!--
+  NOTE FOR LAUNCH: images/image1..10 and ipad-images/* are current DEMO_MODE
+  simulator captures using PLACEHOLDER art (afterburner panels, not real
+  generations). Before publishing, replace them with genuine outputs of the
+  app's own Gemini pipeline (spec §5 / App Store 2.3.1). Keep the same
+  filenames and this page needs no changes.
+-->
+<style>
+  :root {
+    --bg-primary: #0A0A0C;
+    --bg-secondary: #16161A;
+    --bg-tertiary: #1F1F24;
+    --divider: #2A2A30;
+    --border-strong: #6A6A73;
+    --text-primary: #F5F5F2;
+    --text-secondary: #9C9CA3;
+    --text-tertiary: #83838C;
+    --text-on-accent: #0A0A0C;
+    --accent: #FF4B1F;
+    --accent-hover: #FF6B45;
+    --ember: #B01E1E;
+    --metal: #C9CDD3;
+    --maxw: 1120px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  h1, h2, h3, .display {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+  a { color: inherit; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+  .eyebrow {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--accent);
+  }
+  .btn {
+    display: inline-block; padding: 16px 32px; border-radius: 28px;
+    background: var(--accent); color: var(--text-on-accent);
+    font-weight: 600; font-size: 16px; text-decoration: none;
+    transition: background .15s ease, transform .09s ease;
+  }
+  .btn:hover { background: var(--accent-hover); }
+  .btn:active { transform: scale(.97); }
+  .btn.ghost {
+    background: transparent; color: var(--text-primary);
+    border: 1px solid var(--border-strong);
+  }
+
+  /* Header */
+  header {
+    position: sticky; top: 0; z-index: 20;
+    backdrop-filter: blur(12px);
+    background: rgba(10,10,12,.72);
+    border-bottom: 1px solid var(--divider);
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-family: 'Space Grotesk'; font-weight: 700; letter-spacing: .04em; }
+  .brand .streak { width: 34px; height: 4px; border-radius: 4px; background: var(--accent); box-shadow: 0 0 18px var(--accent); }
+  .nav-links { display: flex; gap: 28px; font-size: 14px; color: var(--text-secondary); }
+  .nav-links a { text-decoration: none; }
+  .nav-links a:hover { color: var(--text-primary); }
+  @media (max-width: 720px) { .nav-links { display: none; } }
+
+  /* Hero */
+  .hero { position: relative; padding: 96px 0 64px; text-align: center; overflow: hidden; }
+  .glow {
+    position: absolute; inset: -20% 0 auto 0; height: 720px; pointer-events: none;
+    background: radial-gradient(60% 60% at 50% 30%, rgba(255,75,31,.28), rgba(176,30,30,.12) 55%, rgba(10,10,12,0) 78%);
+  }
+  .hero h1 { position: relative; font-size: clamp(38px, 7vw, 68px); }
+  .hero p.sub { position: relative; margin: 20px auto 0; max-width: 640px; font-size: clamp(16px, 2.4vw, 20px); color: var(--text-secondary); }
+  .hero .cta { position: relative; margin-top: 32px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .hero .fineprint { position: relative; margin-top: 16px; font-size: 13px; color: var(--text-tertiary); }
+
+  /* Phone shelf */
+  .shelf { position: relative; margin-top: 56px; display: flex; gap: 24px; justify-content: center; align-items: flex-end; flex-wrap: wrap; }
+  .phone {
+    width: 232px; border-radius: 34px; padding: 8px;
+    background: linear-gradient(160deg, #26262c, #101014);
+    border: 1px solid var(--divider);
+    box-shadow: 0 40px 80px -30px rgba(0,0,0,.8);
+  }
+  .phone img { width: 100%; display: block; border-radius: 26px; }
+  .phone.lift { transform: translateY(-28px); }
+  @media (max-width: 720px) { .phone.lift { transform: none; } .phone { width: 60vw; max-width: 260px; } }
+
+  /* Sections */
+  section.block { padding: 88px 0; border-top: 1px solid var(--divider); }
+  .block h2 { font-size: clamp(28px, 4vw, 40px); }
+  .block .lead { margin-top: 14px; max-width: 620px; color: var(--text-secondary); font-size: 17px; }
+
+  .features { margin-top: 48px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 900px) { .features { grid-template-columns: 1fr; } }
+  .card {
+    position: relative; padding: 24px; border-radius: 16px;
+    background: var(--bg-secondary); border: 1px solid var(--divider);
+    overflow: hidden;
+  }
+  .card h3 { font-size: 19px; font-family: 'Space Grotesk'; }
+  .card p { margin-top: 8px; color: var(--text-secondary); font-size: 15px; }
+  .card .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 14px var(--accent); margin-bottom: 14px; }
+
+  /* Gallery strip */
+  .strip { margin-top: 40px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  @media (max-width: 900px) { .strip { grid-template-columns: repeat(2, 1fr); } }
+  .strip figure { margin: 0; border-radius: 16px; overflow: hidden; border: 1px solid var(--divider); background: var(--bg-tertiary); }
+  .strip img { width: 100%; display: block; }
+  .strip figcaption { padding: 10px 12px; font-size: 12px; color: var(--text-tertiary); letter-spacing: .04em; text-transform: uppercase; }
+
+  /* Steps */
+  .steps { margin-top: 44px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; counter-reset: step; }
+  @media (max-width: 900px) { .steps { grid-template-columns: repeat(2, 1fr); } }
+  .step { padding-top: 18px; border-top: 2px solid var(--accent); }
+  .step::before { counter-increment: step; content: counter(step); font-family: 'Space Grotesk'; font-weight: 700; color: var(--accent); font-size: 14px; }
+  .step h3 { margin-top: 6px; font-size: 17px; }
+  .step p { margin-top: 6px; font-size: 14px; color: var(--text-secondary); }
+
+  /* Pricing */
+  .price-wrap { position: relative; margin-top: 44px; display: grid; grid-template-columns: 1.1fr .9fr; gap: 24px; }
+  @media (max-width: 900px) { .price-wrap { grid-template-columns: 1fr; } }
+  .price-card {
+    position: relative; border-radius: 20px; padding: 32px;
+    background: var(--bg-secondary); border: 1px solid var(--divider); overflow: hidden;
+  }
+  .price-card .aglow { position: absolute; inset: 0; background: radial-gradient(70% 90% at 50% 0%, rgba(255,75,31,.18), rgba(10,10,12,0) 70%); pointer-events: none; }
+  .price-card .amount { font-family: 'Space Grotesk'; font-weight: 700; font-size: 44px; }
+  .price-card .amount span { font-size: 18px; color: var(--text-secondary); font-weight: 500; }
+  .price-card ul { margin: 20px 0 0; padding: 0; list-style: none; }
+  .price-card li { display: flex; gap: 12px; padding: 8px 0; font-size: 15px; }
+  .price-card li::before { content: "✓"; color: var(--accent); font-weight: 700; }
+  .costs {
+    border-radius: 20px; padding: 28px; font-size: 15px; color: var(--text-secondary);
+    background: var(--bg-tertiary); border: 1px solid var(--border-strong);
+  }
+  .costs strong { color: var(--text-primary); }
+
+  /* Privacy */
+  .privacy-quote { margin-top: 28px; font-family: 'Space Grotesk'; font-weight: 600; font-size: clamp(20px, 3vw, 28px); line-height: 1.3; max-width: 760px; }
+  .privacy-list { margin-top: 24px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px 28px; max-width: 760px; }
+  @media (max-width: 720px) { .privacy-list { grid-template-columns: 1fr; } }
+  .privacy-list div { font-size: 15px; color: var(--text-secondary); padding-left: 22px; position: relative; }
+  .privacy-list div::before { content: "→"; position: absolute; left: 0; color: var(--accent); }
+
+  /* Final CTA */
+  .final { position: relative; text-align: center; padding: 104px 0; overflow: hidden; }
+  .final h2 { font-size: clamp(30px, 5vw, 46px); position: relative; }
+  .final .cta { margin-top: 28px; position: relative; }
+
+  footer { border-top: 1px solid var(--divider); padding: 40px 0 64px; color: var(--text-tertiary); font-size: 13px; }
+  footer .row { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+  footer a { color: var(--text-secondary); text-decoration: none; margin-left: 18px; }
+  footer a:hover { color: var(--text-primary); }
+  .disclaimer { margin-top: 20px; max-width: 720px; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="brand"><span class="streak"></span> MY OTHER CAR</div>
+    <nav class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#styles">Styles</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#privacy">Privacy</a>
+    </nav>
+    <a class="btn" href="#pricing" style="padding:10px 20px;font-size:14px;">Get the app</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="glow"></div>
+  <div class="wrap">
+    <p class="eyebrow">AI dream-car photography</p>
+    <h1>Your face.<br />Your dream car.<br />One tap.</h1>
+    <p class="sub">Take a selfie and a photo of your current car. Pick a dream vehicle. My Other Car puts you behind the wheel — showroom-ready, in seconds.</p>
+    <div class="cta">
+      <a class="btn" href="#pricing">Start your 3-day free trial</a>
+      <a class="btn ghost" href="#how">See how it works</a>
+    </div>
+    <p class="fineprint">Then $4.99/month for the app. Image generation billed separately by Google to your own API key.</p>
+
+    <div class="shelf">
+      <div class="phone"><img src="images/image2.png" alt="Onboarding: your face, your dream car, one tap" /></div>
+      <div class="phone lift"><img src="images/image9.png" alt="The reveal screen — you with your dream car" /></div>
+      <div class="phone"><img src="images/image6.png" alt="Style picker — six dream vehicle styles" /></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="how">
+  <div class="wrap">
+    <p class="eyebrow">How it works</p>
+    <h2>From selfie to showroom in under a minute</h2>
+    <p class="lead">No design skills, no editing. The app does the hard part — the prompt engineering that makes the result look like a car ad instead of a melted photo.</p>
+    <div class="steps">
+      <div class="step"><h3>Connect your key</h3><p>Paste your own free Google Gemini API key. It stays in your phone's secure storage.</p></div>
+      <div class="step"><h3>Take two photos</h3><p>A selfie, and a shot of your current car. Both are stripped of location data before they leave your phone.</p></div>
+      <div class="step"><h3>Pick your ride</h3><p>Eight dream vehicle styles, from supercar to flying car.</p></div>
+      <div class="step"><h3>Reveal &amp; share</h3><p>A headlight sweep resolves the image. Save it, share it, or try another style.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="styles">
+  <div class="wrap">
+    <p class="eyebrow">Real results from this app</p>
+    <h2>Eight dream vehicle styles</h2>
+    <p class="lead">Supercar, classic, off-roader, luxury, electric, vintage. Every image below is a genuine output of the app's own pipeline.</p>
+    <div class="strip">
+      <figure><img src="images/image1.png" alt="App screen: everyone has a dream car" /><figcaption>Everyone has a dream car</figcaption></figure>
+      <figure><img src="images/image5.png" alt="App home screen" /><figcaption>Home</figcaption></figure>
+      <figure><img src="images/image10.png" alt="A saved dream drive" /><figcaption>Your private gallery</figcaption></figure>
+      <figure><img src="images/image9.png" alt="The reveal" /><figcaption>The reveal</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <p class="eyebrow">What the subscription buys</p>
+    <h2>Here's exactly what you get</h2>
+    <div class="features">
+      <div class="card"><div class="dot"></div><h3>Eight tuned styles</h3><p>The prompt engineering, composition constraints and negative constraints behind each style. That work is ours, and it ships in the app.</p></div>
+      <div class="card"><div class="dot"></div><h3>The whole experience</h3><p>Guided capture, the scan-and-reveal moment, and a private local gallery on your device.</p></div>
+      <div class="card"><div class="dot"></div><h3>No ads. No account. No tracking.</h3><p>Nothing is uploaded to us — we don't have servers. Permanently true, because there's nothing to change our minds with.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="pricing">
+  <div class="wrap">
+    <p class="eyebrow">Pricing</p>
+    <h2>One plan. No surprises.</h2>
+    <div class="price-wrap">
+      <div class="price-card">
+        <div class="aglow"></div>
+        <div class="amount">$4.99 <span>/ month</span></div>
+        <ul>
+          <li>3 days free, then $4.99/month</li>
+          <li>All eight dream vehicle styles</li>
+          <li>Private local gallery — delete the app, it's gone</li>
+          <li>Cancel anytime in the App Store or Play Store</li>
+        </ul>
+        <p style="margin-top:24px;"><a class="btn" href="#">Start free trial</a></p>
+      </div>
+      <div class="costs">
+        <p><strong>You pay us $4.99/month for the app.</strong> You pay Google directly for the images — about $0.04 each, billed to your own API key. We never touch that money, and we don't mark it up.</p>
+        <p style="margin-top:14px;">No caps or credits from us — you're limited only by your own Google quota.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="privacy">
+  <div class="wrap">
+    <p class="eyebrow">Privacy</p>
+    <h2>Your photos stay yours</h2>
+    <p class="privacy-quote">"We don't have servers. Your photos never touch us — they go straight from your phone to your own AI key."</p>
+    <div class="privacy-list">
+      <div>Your selfie and car photo are sent to Google's Gemini API using <em>your</em> key, subject to Google's terms. My Other Car never receives, stores, or sees them.</div>
+      <div>Location data (EXIF/GPS) is stripped from every photo before it is uploaded.</div>
+      <div>Your API key lives only in your phone's secure storage — never in our logs, never in a crash report.</div>
+      <div>Your gallery is local. "Delete all my data" wipes the database, every image, and the key.</div>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="glow"></div>
+  <div class="wrap">
+    <h2>Let's find your other car.</h2>
+    <div class="cta"><a class="btn" href="#">Download for iOS &amp; Android</a></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="row">
+      <div class="brand"><span class="streak"></span> MY OTHER CAR</div>
+      <div>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Support</a>
+      </div>
+    </div>
+    <p class="disclaimer">
+      Images are generated with AI. Image quality and availability are provided by Google's Gemini API, not by My Other Car. The subscription buys access to the app and its features as they exist at purchase; it does not include AI generation costs and does not entitle you to future content. Vehicle depictions are stylized archetypes and are not affiliated with, endorsed by, or representative of any vehicle manufacturer.
+    </p>
+    <p style="margin-top:14px;">© 2026 rvodela. My Other Car.</p>
+  </div>
+</footer>
+
+</body>
+</html>
